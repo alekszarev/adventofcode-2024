@@ -11,6 +11,7 @@ import (
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 	safe, unsafe := 0, 0
+	lineNumber := 0
 
 	fmt.Println("Enter pairs of numbers, one pair per line.")
 	fmt.Println("Empty line finishes the input.")
@@ -24,10 +25,14 @@ func main() {
 
 		row := parseInput(line)
 		if isSafe(row) {
+			fmt.Println("Safe:", lineNumber)
 			safe++
 		} else {
+			fmt.Println("Unsafe:", lineNumber)
 			unsafe++
 		}
+
+		lineNumber++
 	}
 
 	fmt.Println("Safe:", safe)
@@ -52,19 +57,46 @@ func isSafe(row []int) bool {
 	isIncreasing := false
 	isDecreasing := false
 
+	badLevelCounter := 0
+	badLevelIndex := -1
+	badLevelCheck := false
+
 	for i := 1; i < len(row); i++ {
-		if row[i-1]-row[i] > 3  || row[i] - row[i-1] > 3 || row[i] - row[i-1] == 0 {
-			return false 
+		index := i - 1
+
+		if badLevelCounter == 1 && !badLevelCheck {
+			index = badLevelIndex
+			badLevelCheck = true
 		}
 
-		if row[i] < row[i-1] {
-			isDecreasing = true
-		} else if row[i] > row[i-1] {
-			isIncreasing = true
-		}
-
-		if isDecreasing && isIncreasing {
+		if row[index]-row[i] > 3 || row[i]-row[index] > 3 {
 			return false
+		}
+
+		if row[i]-row[index] == 0 {
+			badLevelCounter++
+			badLevelIndex = i
+		} else if row[i] < row[index] {
+			isDecreasing = true
+			if isIncreasing {
+				badLevelCounter++
+				badLevelIndex = i
+			}
+		} else if row[i] > row[index] {
+			isIncreasing = true
+			if isDecreasing {
+				badLevelCounter++
+				badLevelIndex = i
+			}
+		}
+
+		if badLevelCounter > 1 {
+			return false
+		}
+
+		if badLevelCounter == 1 && isIncreasing && isDecreasing {
+			isDecreasing = false
+			isIncreasing = false
 		}
 	}
 
