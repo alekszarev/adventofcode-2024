@@ -19,13 +19,31 @@ public class Main {
           }
 
           Pattern pattern = Pattern.compile("mul\\((\\d{1,3}),\\s?(\\d{1,3})\\)");
-          Matcher matcher = pattern.matcher(input);
-
           int result = 0;
-          while (matcher.find()) {
-            int value1 = Integer.parseInt(matcher.group(1));
-            int value2 = Integer.parseInt(matcher.group(2));
-            result += value1 * value2;
+
+          //part two
+          
+          int doIndex = input.indexOf("do()");
+          String beforeDoSection = (doIndex != -1) ? input.substring(0, doIndex) : input.toString();
+          Matcher beforeDoMatcher = pattern.matcher(beforeDoSection);
+
+          while (beforeDoMatcher.find()) {
+              int value1 = Integer.parseInt(beforeDoMatcher.group(1));
+              int value2 = Integer.parseInt(beforeDoMatcher.group(2));
+              result += value1 * value2;
+          }
+   
+          Pattern doToDontPattern =  Pattern.compile("do\\(\\).*?don't\\(\\)");
+          Matcher doToDontMatcher = doToDontPattern.matcher(input);
+          while (doToDontMatcher.find()) {
+            String doToDontSection = doToDontMatcher.group();
+            Matcher sectionMatcher = pattern.matcher(doToDontSection);
+
+            while (sectionMatcher.find()) {
+                int value1 = Integer.parseInt(sectionMatcher.group(1));
+                int value2 = Integer.parseInt(sectionMatcher.group(2));
+                result += value1 * value2;
+            }
           }
 
           System.out.println("Result: " + result);
