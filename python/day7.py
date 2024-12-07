@@ -44,6 +44,7 @@ def equationApplied(result: int, numbers: List[int]) -> int:
            return concat_result
 
        return 0
+    
     return equation(numbers[0], numbers[1:])
 
 def multiply(a: int, b: int) -> int:
