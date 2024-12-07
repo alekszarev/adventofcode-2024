@@ -38,6 +38,11 @@ def equationApplied(result: int, numbers: List[int]) -> int:
        if multiply_result == result:
            return multiply_result
        
+       multiplier = 10 ** len(str(first))
+       concat_result = equation(current_result * multiplier + first, rest)
+       if concat_result == result:
+           return concat_result
+
        return 0
     return equation(numbers[0], numbers[1:])
 
