@@ -27,11 +27,23 @@ antennas.each do |freq, locations|
     row = r2 - r1
     col_diff = c2 - c1
 
-    antinode1 = [r1 - row, c1 - col_diff]
-    antinode2 = [r2 + row, c2 + col_diff]
+    greatest_common_divisior = row.gcd(col_diff)
+    step_row = row / greatest_common_divisior
+    step_col = col_diff / greatest_common_divisior
 
-    unique_antidotes.add(antinode1) if antinode1[0] >= 0 && antinode1[0] < rows && antinode1[1] >= 0 && antinode1[1] < cols
-    unique_antidotes.add(antinode2) if antinode2[0] >= 0 && antinode2[0] < rows && antinode2[1] >= 0 && antinode2[1] < cols
+    i, j = r1, c1
+    while i >= 0 && i < rows && j >= 0 && j < cols
+      unique_antidotes.add([i, j])
+      i -= step_row
+      j -= step_col
+    end
+
+    i, j = r2, c2
+    while i >= 0 && i < rows && j >= 0 && j < cols
+      unique_antidotes.add([i, j])
+      i += step_row
+      j += step_col
+    end
   end
 end
 
