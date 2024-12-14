@@ -9,6 +9,55 @@
 
     public static class DayNine
     {
+        public static void SolutionTwo()
+        {
+            var workModel = GetWorkModel();
+
+            var workFileIndex = -1;
+            var nextFileIndex = -1;
+            var leftOverEmptyIndexes = new Queue<int>();
+
+            while (workModel.FileIndexesStack.Count > 0)
+            {
+                //File blocks
+                var workFileBlock = new Stack<int>();
+                do
+                {
+                    if (workModel.FileIndexesStack.Count > 0)
+                        workFileIndex = workModel.FileIndexesStack.Pop();
+
+                    if (workModel.FileIndexesStack.Count > 0)
+                        nextFileIndex = workModel.FileIndexesStack.Peek();
+
+                    workFileBlock.Push(workFileIndex);
+
+                } while (workModel.NormalizedInput[workFileIndex] == workModel.NormalizedInput[nextFileIndex]);
+
+                //Empty blocks
+               // var currentEmptySpaceBlock = new Queue<int>();
+               // do
+               // {
+               //     if (workModel.EmptyIndexesQueue.Count > 0)
+               //         workFileIndex = workModel.EmptyIndexesQueue.Dequeue();
+               //
+               //     if (workModel.FileIndexesStack.Count > 0)
+               //         nextFileIndex = workModel.EmptyIndexesQueue.Peek();
+               //
+               //     currentEmptySpaceBlock.Enqueue(workFileIndex);
+               //
+               //     foreach (var item in workModel.NormalizedInput)
+               //     {
+               //         var itemToWrite = item == -1 ? "." : item.ToString();
+               //         Console.Write(itemToWrite + ' ');
+               //     }
+               //     Console.WriteLine();
+               //
+               // } while (workModel.EmptyIndexesQueue[workFileIndex] == workModel.EmptyIndexesQueue[nextFileIndex]);
+
+
+            }
+        }
+
         public static void SolutionOne()
         {
             var workModel = GetWorkModel();
