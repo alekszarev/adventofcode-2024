@@ -1,10 +1,11 @@
 ﻿using adventofcode.DayTwo;
+using AdventOfCode.DayFourteen;
 using AdventOfCode.DayNine;
 
 class Program
 {
     static void Main()
     {
-        DayTwo.SolutionTwo();
+        DayFourteen.SolutionTwo();
     }
 }
